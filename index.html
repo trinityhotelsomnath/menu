@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saatvik Restaurant – Menu</title>
+  <meta name="theme-color" content="#FBF7EC">
+  <!-- Index.html – Customer QR Menu – v1.0.0 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Styles.html – Customer menu styles – v1.0.0 -->
+<style>
+  :root {
+    --cream: #FBF7EC;
+    --paper: #F5EFDF;
+    --ink: #33251B;
+    --muted: #7A6957;
+    --terracotta: #A23B22;
+    --terracotta-deep: #7C2C18;
+    --gold: #B08A4E;
+    --line: rgba(51, 37, 27, .13);
+    --veg: #2F7D32;
+    --display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --body: 'Jost', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font: 400 15px/1.5 var(--body); -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; color: inherit; }
+  [hidden] { display: none !important; }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    text-align: center; padding: 34px 20px 22px;
+    background: radial-gradient(120% 90% at 50% 0%, #FFFDF6 0%, var(--cream) 70%);
+  }
+  .brand { max-width: 560px; margin: 0 auto; }
+  .logo { display: block; max-height: 74px; max-width: 220px; margin: 0 auto 14px; object-fit: contain; }
+  .hotel { margin: 0; font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+  .rule { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 12px 0 6px; }
+  .rule span { width: 46px; height: 1px; background: var(--gold); opacity: .7; }
+  .rule i { width: 6px; height: 6px; transform: rotate(45deg); border: 1px solid var(--gold); }
+  h1 {
+    margin: 0; font: 600 clamp(28px, 7.4vw, 40px)/1.08 var(--display);
+    color: var(--terracotta-deep); letter-spacing: .01em;
+  }
+  .tagline { margin: 10px 0 0; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); letter-spacing: .04em; }
+  .veg-mark { width: 13px; height: 13px; border: 1.5px solid var(--veg); display: inline-grid; place-items: center; flex: none; }
+  .veg-mark::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--veg); }
+
+  /* ---------- Chooser ---------- */
+  .chooser { max-width: 460px; margin: 6px auto 30px; padding: 0 20px; display: grid; gap: 14px; }
+  .chooser-title { margin: 0 0 4px; text-align: center; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .choice {
+    display: grid; gap: 2px; text-align: left; cursor: pointer; padding: 20px 22px;
+    background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--terracotta); border-radius: 4px;
+  }
+  .choice:active { background: var(--paper); }
+  .choice-name { font: 600 25px/1.15 var(--display); color: var(--terracotta-deep); }
+  .choice-sub { font-size: 13px; color: var(--muted); }
+
+  /* ---------- Switch & search ---------- */
+  .switch {
+    display: grid; grid-template-columns: 1fr 1fr; max-width: 420px; margin: 4px auto 14px;
+    border: 1px solid var(--terracotta); border-radius: 999px; padding: 3px; background: #fff;
+  }
+  .switch button {
+    border: 0; background: transparent; border-radius: 999px; padding: 9px 10px; cursor: pointer;
+    font-size: 13.5px; letter-spacing: .04em; color: var(--terracotta-deep);
+  }
+  .switch button[aria-selected="true"] { background: var(--terracotta); color: #fff; }
+  .search { position: relative; max-width: 720px; margin: 0 auto 6px; padding: 0 16px; }
+  .search svg { position: absolute; left: 30px; top: 50%; width: 17px; height: 17px; transform: translateY(-50%); fill: none; stroke: var(--muted); stroke-width: 1.7; }
+  .search input {
+    width: 100%; padding: 11px 14px 11px 40px; border: 1px solid var(--line); border-radius: 6px;
+    background: #fff; font: inherit; font-size: 16px; color: var(--ink); outline: none;
+  }
+  .search input:focus { border-color: var(--gold); }
+
+  /* ---------- Category bar ---------- */
+  .cats {
+    position: sticky; top: 0; z-index: 5; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    padding: 10px 16px; background: rgba(251, 247, 236, .97); border-bottom: 1px solid var(--line);
+  }
+  .cats::-webkit-scrollbar { display: none; }
+  .cats button {
+    flex: none; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 14px;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; cursor: pointer; color: var(--ink);
+  }
+  .cats button.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+  @media (min-width: 760px) { .cats { justify-content: center; flex-wrap: wrap; } }
+
+  /* ---------- Sections & items ---------- */
+  main { max-width: 720px; margin: 0 auto; padding: 4px 16px 10px; }
+  .section { padding-top: 26px; scroll-margin-top: 64px; }
+  .section-title {
+    margin: 0 0 4px; text-align: center; font: 600 25px/1.2 var(--display); color: var(--terracotta-deep);
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  .section-desc { margin: 0 0 6px; text-align: center; color: var(--muted); font-size: 13px; }
+  .section-rule { width: 40px; height: 1px; background: var(--gold); margin: 8px auto 8px; }
+  .item { display: flex; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: 0; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-head { display: flex; align-items: baseline; gap: 10px; }
+  .item-name { margin: 0; flex: 1; font: 500 14.5px/1.35 var(--body); letter-spacing: .05em; text-transform: uppercase; }
+  .price { flex: none; font: 600 18px/1.2 var(--display); color: var(--terracotta-deep); white-space: nowrap; }
+  .kcal { margin: 2px 0 0; font-size: 11.5px; color: var(--gold); letter-spacing: .04em; }
+  .item-desc { margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+  .thumb {
+    flex: none; width: 92px; height: 92px; padding: 0; border: 0; border-radius: 6px; overflow: hidden;
+    background: var(--paper); cursor: zoom-in; align-self: center;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .soldout .item-name, .soldout .price, .soldout .item-desc, .soldout .kcal { opacity: .45; }
+  .soldout .price { text-decoration: line-through; }
+  .soldout .thumb img { filter: grayscale(1); opacity: .55; }
+  .badge {
+    display: inline-block; margin-top: 7px; padding: 2px 9px; border-radius: 3px; font-size: 10.5px; letter-spacing: .14em;
+    text-transform: uppercase; background: var(--terracotta); color: #fff;
+  }
+
+  .empty { max-width: 520px; margin: 30px auto; padding: 24px 20px; text-align: center; color: var(--muted); }
+  .empty strong { display: block; font: 600 22px/1.2 var(--display); color: var(--ink); margin-bottom: 6px; }
+
+  /* ---------- Footer ---------- */
+  .foot {
+    margin-top: 26px; padding: 28px 20px calc(30px + env(safe-area-inset-bottom)); background: var(--paper);
+    text-align: center; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line);
+  }
+  .foot .order-note { margin: 0 auto 16px; max-width: 460px; font: 600 19px/1.35 var(--display); color: var(--terracotta-deep); }
+  .foot h4 { margin: 14px 0 3px; font: 500 11px/1.4 var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--ink); }
+  .foot p { margin: 0; white-space: pre-line; }
+  .foot a { color: var(--terracotta-deep); text-decoration: none; border-bottom: 1px solid rgba(124, 44, 24, .3); }
+  .foot .fine { margin-top: 18px; font-size: 11.5px; letter-spacing: .03em; }
+
+  /* ---------- Photo viewer ---------- */
+  .viewer { position: fixed; inset: 0; z-index: 20; background: rgba(28, 20, 14, .82); display: grid; place-items: center; padding: 18px; }
+  .viewer-card { position: relative; max-width: 560px; width: 100%; background: var(--cream); border-radius: 8px; overflow: hidden; }
+  .viewer-card img { display: block; width: 100%; max-height: 70vh; object-fit: contain; background: #000; }
+  .viewer-card p { margin: 0; padding: 12px 16px; font-size: 14px; letter-spacing: .05em; text-transform: uppercase; }
+  .viewer-close {
+    position: absolute; top: 8px; right: 8px; width: 38px; height: 38px; border-radius: 50%; border: 0;
+    background: rgba(255, 255, 255, .92); font-size: 24px; line-height: 1; cursor: pointer;
+  }
+
+  @media (min-width: 760px) {
+    .masthead { padding-top: 48px; }
+    .item-name { font-size: 15px; }
+    .thumb { width: 104px; height: 104px; }
+  }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: auto; } }
+</style>
+
+</head>
+<body>
+  <header class="masthead" id="masthead">
+    <div class="brand">
+      <img id="logo" class="logo" alt="" hidden>
+      <p class="hotel" id="hotelName"></p>
+      <div class="rule" aria-hidden="true"><span></span><i></i><span></span></div>
+      <h1 id="restName"></h1>
+      <p class="tagline"><span class="veg-mark" aria-hidden="true"></span><span id="restDesc"></span></p>
+    </div>
+  </header>
+
+  <!-- Menu chooser: shown when the QR does not specify a menu -->
+  <section id="chooser" class="chooser" hidden>
+    <p class="chooser-title">Please choose your menu</p>
+    <button type="button" class="choice" data-menu="restaurant">
+      <span class="choice-name" id="chooseRestaurant">Restaurant</span>
+      <span class="choice-sub">Dining at the restaurant</span>
+    </button>
+    <button type="button" class="choice" data-menu="room">
+      <span class="choice-name" id="chooseRoom">In-Room Dining</span>
+      <span class="choice-sub">Ordering to your room</span>
+    </button>
+  </section>
+
+  <div id="menuView" hidden>
+    <div class="switch" role="tablist" aria-label="Choose menu">
+      <button type="button" role="tab" data-menu="restaurant" id="tabRestaurant">Restaurant</button>
+      <button type="button" role="tab" data-menu="room" id="tabRoom">In-Room Dining</button>
+    </div>
+
+    <div class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      <input id="q" type="search" placeholder="Search dishes" autocomplete="off" aria-label="Search dishes">
+    </div>
+
+    <nav class="cats" id="catNav" aria-label="Menu categories"></nav>
+
+    <main id="sections"></main>
+    <div id="empty" class="empty" hidden></div>
+  </div>
+
+  <div id="errorBox" class="empty" hidden></div>
+
+  <footer class="foot" id="footer"></footer>
+
+  <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Dish photo">
+    <div class="viewer-card">
+      <button type="button" class="viewer-close" id="viewerClose" aria-label="Close">×</button>
+      <img id="viewerImg" alt="">
+      <p id="viewerName"></p>
+    </div>
+  </div>
+
+  <noscript><p class="empty">Please enable JavaScript to view the menu.</p></noscript>
+
+  <div id="loadingBox" class="empty" style="text-align:center;padding:48px 16px">Loading menu…</div>
+  <script id="appCode" type="text/plain">
+(function () {
+  'use strict';
+
+  var DATA = window.__MENU__ || {};
+  var STORE_KEY = 'saatvik_menu_choice';
+  var REFRESH_AFTER_MS = 3 * 60 * 1000;
+  var lastLoad = Date.now();
+  var state = { menu: '', query: '' };
+  var observer = null;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined && text !== null) e.textContent = text;
+    return e;
+  }
+  function store(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+
+  function money(n) {
+    var sym = (DATA.settings && DATA.settings.Currency_Symbol) || '₹';
+    var isInt = Math.round(n) === n;
+    return sym + Number(n).toLocaleString('en-IN', { minimumFractionDigits: isInt ? 0 : 2, maximumFractionDigits: 2 });
+  }
+
+  function label(menu) {
+    var s = DATA.settings || {};
+    return menu === 'room' ? (s.Room_Menu_Label || 'In-Room Dining') : (s.Restaurant_Menu_Label || 'Restaurant');
+  }
+
+  function inMenu(type) {
+    type = type || 'BOTH';
+    return type === 'BOTH' || (state.menu === 'room' ? type === 'ROOM' : type === 'RESTAURANT');
+  }
+
+  function priceOf(it) { return state.menu === 'room' ? it.rp : it.p; }
+
+  /* ---------- Branding ---------- */
+  function renderBrand() {
+    var s = DATA.settings || {};
+    $('restName').textContent = s.Restaurant_Name || '';
+    $('hotelName').textContent = s.Hotel_Name || '';
+    $('restDesc').textContent = s.Restaurant_Description || '';
+    $('chooseRestaurant').textContent = label('restaurant');
+    $('chooseRoom').textContent = label('room');
+    $('tabRestaurant').textContent = label('restaurant');
+    $('tabRoom').textContent = label('room');
+    var logo = $('logo');
+    if (s.Logo_URL) {
+      logo.onerror = function () { logo.hidden = true; };
+      logo.src = s.Logo_URL;
+      logo.alt = s.Restaurant_Name || 'Logo';
+      logo.hidden = false;
+    } else {
+      logo.hidden = true;
+    }
+  }
+
+  /* ---------- Menu ---------- */
+  function visibleData() {
+    var q = state.query.trim().toLowerCase();
+    var groups = [];
+    (DATA.categories || []).forEach(function (c) {
+      if (!inMenu(c.m)) return;
+      var items = (DATA.items || []).filter(function (it) {
+        if (it.c !== c.id || !inMenu(it.m)) return false;
+        var p = priceOf(it);
+        if (p === null || p === undefined) return false;
+        if (q && (it.n + ' ' + (it.d || '')).toLowerCase().indexOf(q) < 0) return false;
+        return true;
+      });
+      if (items.length) groups.push({ cat: c, items: items });
+    });
+    return groups;
+  }
+
+  function renderMenu() {
+    var groups = visibleData();
+    var nav = $('catNav'), sections = $('sections');
+    nav.textContent = '';
+    sections.textContent = '';
+
+    ['tabRestaurant', 'tabRoom'].forEach(function (id) {
+      var b = $(id);
+      b.setAttribute('aria-selected', b.getAttribute('data-menu') === state.menu ? 'true' : 'false');
+    });
+
+    groups.forEach(function (g, gi) {
+      var chip = el('button', gi === 0 ? 'active' : '', g.cat.n);
+      chip.type = 'button';
+      chip.setAttribute('data-target', 'sec-' + g.cat.id);
+      chip.addEventListener('click', function () { jumpTo(g.cat.id); });
+      nav.appendChild(chip);
+
+      var sec = el('section', 'section');
+      sec.id = 'sec-' + g.cat.id;
+      sec.setAttribute('data-cat', g.cat.id);
+      sec.appendChild(el('h2', 'section-title', g.cat.n));
+      if (g.cat.d) sec.appendChild(el('p', 'section-desc', g.cat.d));
+      sec.appendChild(el('div', 'section-rule'));
+      g.items.forEach(function (it) { sec.appendChild(renderItem(it)); });
+      sections.appendChild(sec);
+    });
+
+    var empty = $('empty');
+    if (!groups.length) {
+      empty.textContent = '';
+      if (state.query) {
+        empty.appendChild(el('strong', '', 'No dishes found'));
+        empty.appendChild(el('span', '', 'Try a different word, or clear the search.'));
+      } else {
+        empty.appendChild(el('strong', '', 'Menu coming soon'));
+        empty.appendChild(el('span', '', 'Please ask our staff for today’s menu.'));
+      }
+      empty.hidden = false;
+      nav.hidden = true;
+    } else {
+      empty.hidden = true;
+      nav.hidden = false;
+    }
+    renderFooter();
+    watchSections();
+  }
+
+  function renderItem(it) {
+    var soldOut = it.a !== 1;
+    var art = el('article', 'item' + (soldOut ? ' soldout' : ''));
+    var main = el('div', 'item-main');
+    var head = el('div', 'item-head');
+    head.appendChild(el('h3', 'item-name', it.n));
+    head.appendChild(el('span', 'price', money(priceOf(it))));
+    main.appendChild(head);
+    if (it.k) main.appendChild(el('p', 'kcal', it.k));
+    if (it.d) main.appendChild(el('p', 'item-desc', it.d));
+    if (soldOut) main.appendChild(el('span', 'badge', 'Sold Out'));
+    art.appendChild(main);
+
+    if (it.img) {
+      var btn = el('button', 'thumb');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'View photo of ' + it.n);
+      var img = el('img');
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.alt = it.n;
+      setImg(img, it.img, function () { btn.remove(); });
+      btn.appendChild(img);
+      btn.addEventListener('click', function () { openViewer(it); });
+      art.appendChild(btn);
+    }
+    return art;
+  }
+
+  /** Drive image with one fallback URL, then give up quietly. */
+  function setImg(img, url, onFail) {
+    var tried = false;
+    img.onerror = function () {
+      var m = /\/d\/([^=/?]+)/.exec(url);
+      if (!tried && m) { tried = true; img.src = 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1000'; }
+      else if (onFail) onFail();
+    };
+    img.src = url;
+  }
+
+  function renderFooter() {
+    var s = DATA.settings || {};
+    var f = $('footer');
+    f.textContent = '';
+    var note = state.menu === 'room' ? s.Room_Order_Note : s.Restaurant_Order_Note;
+    if (note) f.appendChild(el('p', 'order-note', note));
+    function block(title, text, href) {
+      if (!text) return;
+      f.appendChild(el('h4', '', title));
+      var p = el('p');
+      if (href) {
+        var a = el('a', '', text);
+        a.href = href;
+        a.target = '_top';
+        a.rel = 'noopener';
+        p.appendChild(a);
+      } else {
+        p.textContent = text;
+      }
+      f.appendChild(p);
+    }
+    block('Opening Hours', s.Opening_Hours);
+    if (s.Phone) block('Phone', s.Phone, 'tel:' + String(s.Phone).replace(/[^\d+]/g, ''));
+    if (s.Email) block('Email', s.Email, 'mailto:' + s.Email);
+    block('Address', s.Address);
+    if (s.Website) block('Website', s.Website.replace(/^https?:\/\//, '').replace(/\/$/, ''), s.Website);
+    var fine = el('p', 'fine', 'All prices are in Indian Rupees (' + (s.Currency_Symbol || '₹') + ').' + (s.Tax_Note ? ' ' + s.Tax_Note : ''));
+    f.appendChild(fine);
+  }
+
+  /* ---------- Category navigation ---------- */
+  function navHeight() { var n = $('catNav'); return n.hidden ? 0 : n.offsetHeight; }
+
+  function jumpTo(catId) {
+    var sec = $('sec-' + catId);
+    if (!sec) return;
+    var y = sec.getBoundingClientRect().top + window.pageYOffset - navHeight() - 4;
+    window.scrollTo(0, Math.max(0, y));
+    setActive(catId);
+  }
+
+  function setActive(catId) {
+    var nav = $('catNav');
+    var chips = nav.querySelectorAll('button');
+    for (var i = 0; i < chips.length; i++) {
+      var on = chips[i].getAttribute('data-target') === 'sec-' + catId;
+      chips[i].className = on ? 'active' : '';
+      if (on) {
+        var c = chips[i];
+        var left = c.offsetLeft - (nav.clientWidth - c.offsetWidth) / 2;
+        nav.scrollLeft = Math.max(0, left);
+      }
+    }
+  }
+
+  function watchSections() {
+    if (observer) observer.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    observer = new IntersectionObserver(function (entries) {
+      var best = null;
+      entries.forEach(function (e) {
+        if (e.isIntersecting && (!best || e.boundingClientRect.top < best.boundingClientRect.top)) best = e;
+      });
+      if (best) setActive(best.target.getAttribute('data-cat'));
+    }, { rootMargin: '-70px 0px -65% 0px', threshold: 0 });
+    var secs = document.querySelectorAll('.section');
+    for (var i = 0; i < secs.length; i++) observer.observe(secs[i]);
+  }
+
+  /* ---------- Photo viewer ---------- */
+  function openViewer(it) {
+    setImg($('viewerImg'), it.img, null);
+    $('viewerImg').alt = it.n;
+    $('viewerName').textContent = it.n;
+    $('viewer').hidden = false;
+    $('viewerClose').focus();
+  }
+  function closeViewer() { $('viewer').hidden = true; $('viewerImg').removeAttribute('src'); }
+
+  /* ---------- Menu selection ---------- */
+  function choose(menu) {
+    state.menu = menu === 'room' ? 'room' : 'restaurant';
+    store(STORE_KEY, state.menu);
+    $('chooser').hidden = true;
+    $('menuView').hidden = false;
+    renderMenu();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- Refresh (if page left open) ---------- */
+  function maybeRefresh() {
+    if (document.visibilityState !== 'visible' || Date.now() - lastLoad < REFRESH_AFTER_MS) return;
+    if (!(window.google && google.script && google.script.run)) return;
+    lastLoad = Date.now();
+    google.script.run.withSuccessHandler(function (res) {
+      if (res && res.ok && res.data && res.data.v !== DATA.v) {
+        DATA = res.data;
+        renderBrand();
+        if (state.menu) renderMenu();
+      }
+    }).getPublicMenu();
+  }
+
+  /* ---------- Init ---------- */
+  function init() {
+    if (DATA.error) {
+      var box = $('errorBox');
+      box.appendChild(el('strong', '', 'Menu unavailable'));
+      box.appendChild(el('span', '', DATA.error));
+      box.hidden = false;
+      return;
+    }
+    renderBrand();
+
+    var buttons = document.querySelectorAll('[data-menu]');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
+        var m = this.getAttribute('data-menu');
+        if (m !== state.menu || !$('chooser').hidden) choose(m);
+      });
+    }
+
+    var t;
+    $('q').addEventListener('input', function () {
+      var v = this.value;
+      clearTimeout(t);
+      t = setTimeout(function () { state.query = v; renderMenu(); }, 120);
+    });
+
+    $('viewer').addEventListener('click', function (e) { if (e.target === this) closeViewer(); });
+    $('viewerClose').addEventListener('click', closeViewer);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeViewer(); });
+    document.addEventListener('visibilitychange', maybeRefresh);
+
+    var initial = window.__INITIAL_MENU__ || store(STORE_KEY);
+    if (initial === 'room' || initial === 'restaurant') {
+      choose(initial);
+    } else {
+      $('chooser').hidden = false;
+      renderFooter();
+    }
+  }
+
+  init();
+})();
+</script>
+  <script>
+  (function () {
+    var API = 'https://script.google.com/macros/s/AKfycbz6ZzjD4owP5h8hbPYA8gxgroJHqvOVV6rLS1LJODQpLmgy-ta9Al93xV_Wn5Ur5Hk/exec?api=menu';
+    function getMenu() {
+      return fetch(API + '&t=' + Date.now(), { credentials: 'omit', cache: 'no-store' }).then(function (r) { return r.json(); });
+    }
+    // Shim so the app's auto-refresh works outside Apps Script.
+    window.google = { script: { run: { withSuccessHandler: function (ok) {
+      return { getPublicMenu: function () { getMenu().then(function (d) { ok({ ok: !d.error, data: d }); }).catch(function () {}); } };
+    } } } };
+    var q = new URLSearchParams(location.search).get('menu');
+    window.__INITIAL_MENU__ = (q === 'room' || q === 'restaurant') ? q : '';
+    function start(d) {
+      window.__MENU__ = d;
+      var lb = document.getElementById('loadingBox'); if (lb) lb.remove();
+      var s = document.createElement('script');
+      s.text = document.getElementById('appCode').textContent;
+      document.body.appendChild(s);
+    }
+    getMenu().then(start).catch(function () {
+      setTimeout(function () { getMenu().then(start).catch(function () { start({ error: 'Menu is temporarily unavailable. Please check your internet connection or ask our staff for assistance.' }); }); }, 1500);
+    });
+  })();
+  </script>
+</body>
+</html>
